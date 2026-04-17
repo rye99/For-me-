@@ -3,22 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For My Love ❤️</title>
+    <title>Secret Message</title>
     <style>
-        body { background-color: #ffeef2; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: sans-serif; text-align: center; }
-        .card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 80%; }
-        h1 { color: #d63384; }
-        .heart { font-size: 50px; animation: beat 0.8s infinite alternate; }
-        @keyframes beat { to { transform: scale(1.2); } }
-        .btn { background: #ff4b6e; color: white; border: none; padding: 10px 20px; border-radius: 20px; margin-top: 20px; cursor: pointer; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #ffeef8;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .container {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
+
+        button {
+            background-color: #ff4d6d;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            margin: 10px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #ff758f;
+            transform: scale(1.05);
+        }
+
+        .hidden { display: none; }
+
+        #finalMessage {
+            font-size: 24px;
+            color: #ff4d6d;
+            font-weight: bold;
+        }
+
+        /* Heart animation */
+        .heart {
+            position: absolute;
+            color: #ff4d6d;
+            font-size: 20px;
+            user-select: none;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="card">
-        <div class="heart">❤️</div>
-        <h1>Surprise!</h1>
-        <p>I just wanted to make something special for you.</p>
-        <button class="btn" onclick="alert('I Love You So Much! ❤️')">Click for Message</button>
+
+<div class="container">
+    <div id="step1">
+        <button onclick="showStep('step2')">Click me</button>
     </div>
+
+    <div id="step2" class="hidden">
+        <button onclick="revealLove()">Open</button>
+        <button onclick="showStep('step3')">I don't want</button>
+    </div>
+
+    <div id="step3" class="hidden">
+        <button onclick="revealLove()">Please open</button>
+        <button onclick="showStep('step4')">I don't want to open</button>
+    </div>
+
+    <div id="step4" class="hidden">
+        <button onclick="revealLove()">I'm opening</button>
+        <button onclick="revealLove()">Okey fine let me open</button>
+    </div>
+
+    <div id="finalMessage" class="hidden">
+        <h1>I love you so much 💓💓</h1>
+    </div>
+</div>
+
+<script>
+    function showStep(stepId) {
+        // Hide all divs inside container
+        const steps = ['step1', 'step2', 'step3', 'step4'];
+        steps.forEach(id => {
+            document.getElementById(id).classList.add('hidden');
+        });
+        // Show current step
+        document.getElementById(stepId).classList.remove('hidden');
+    }
+
+    function revealLove() {
+        // Hide everything
+        showStep('none'); 
+        document.getElementById('finalMessage').classList.remove('hidden');
+        
+        // Start heart shower
+        setInterval(createHeart, 300);
+    }
+
+    function createHeart() {
+        const heart = document.createElement('div');
+        heart.classList.add('heart');
+        heart.innerHTML = '❤️';
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+        heart.style.opacity = Math.random();
+        document.body.appendChild(heart);
+
+        // Remove heart after animation
+        setTimeout(() => {
+            heart.remove();
+        }, 5000);
+    }
+</script>
+
 </body>
 </html>
