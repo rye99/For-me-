@@ -3,72 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Secret Message</title>
+    <title>Secret Love Message</title>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Arial', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #ffeef8;
+            background-color: #fff0f5;
             overflow: hidden;
             text-align: center;
         }
 
         .container {
             background: white;
-            padding: 2rem;
+            padding: 40px;
             border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             z-index: 10;
+            min-width: 300px;
         }
 
         button {
             background-color: #ff4d6d;
             color: white;
             border: none;
-            padding: 12px 25px;
+            padding: 15px 30px;
             margin: 10px;
             border-radius: 50px;
             cursor: pointer;
-            font-size: 16px;
-            transition: transform 0.2s, background-color 0.2s;
+            font-size: 18px;
+            font-weight: bold;
+            transition: 0.3s;
         }
 
         button:hover {
-            background-color: #ff758f;
-            transform: scale(1.05);
+            background-color: #c9184a;
+            transform: scale(1.1);
         }
 
         .hidden { display: none; }
 
-        #finalMessage {
-            font-size: 24px;
+        #messageText {
+            font-size: 30px;
             color: #ff4d6d;
             font-weight: bold;
+            animation: pop 0.5s ease-out;
         }
 
-        /* Heart animation */
+        @keyframes pop {
+            0% { transform: scale(0.5); }
+            100% { transform: scale(1); }
+        }
+
         .heart {
             position: absolute;
+            top: -10%;
             color: #ff4d6d;
-            font-size: 20px;
+            font-size: 25px;
             user-select: none;
+            z-index: 1;
             animation: fall linear forwards;
         }
 
         @keyframes fall {
             to {
-                transform: translateY(100vh) rotate(360deg);
+                transform: translateY(110vh) rotate(360deg);
             }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
+<div class="container" id="mainBox">
     <div id="step1">
         <button onclick="showStep('step2')">Click me</button>
     </div>
@@ -89,28 +98,33 @@
     </div>
 
     <div id="finalMessage" class="hidden">
-        <h1>I love you so much 💓💓</h1>
+        <div id="messageText">i love you so much 💓💓</div>
     </div>
 </div>
 
 <script>
     function showStep(stepId) {
-        // Hide all divs inside container
-        const steps = ['step1', 'step2', 'step3', 'step4'];
-        steps.forEach(id => {
-            document.getElementById(id).classList.add('hidden');
-        });
-        // Show current step
+        // Saare steps ko hide karo
+        document.getElementById('step1').classList.add('hidden');
+        document.getElementById('step2').classList.add('hidden');
+        document.getElementById('step3').classList.add('hidden');
+        document.getElementById('step4').classList.add('hidden');
+        
+        // Sirf wahi step dikhao jo chahiye
         document.getElementById(stepId).classList.remove('hidden');
     }
 
     function revealLove() {
-        // Hide everything
-        showStep('none'); 
+        // Buttons ko gayab karo aur message dikhao
+        document.getElementById('step1').classList.add('hidden');
+        document.getElementById('step2').classList.add('hidden');
+        document.getElementById('step3').classList.add('hidden');
+        document.getElementById('step4').classList.add('hidden');
+        
         document.getElementById('finalMessage').classList.remove('hidden');
         
-        // Start heart shower
-        setInterval(createHeart, 300);
+        // Hearts ki baarish shuru
+        setInterval(createHeart, 200);
     }
 
     function createHeart() {
@@ -118,14 +132,12 @@
         heart.classList.add('heart');
         heart.innerHTML = '❤️';
         heart.style.left = Math.random() * 100 + 'vw';
-        heart.style.animationDuration = Math.random() * 3 + 2 + 's';
-        heart.style.opacity = Math.random();
+        heart.style.animationDuration = (Math.random() * 2 + 3) + 's'; 
         document.body.appendChild(heart);
 
-        // Remove heart after animation
         setTimeout(() => {
             heart.remove();
-        }, 5000);
+        }, 4000);
     }
 </script>
 
